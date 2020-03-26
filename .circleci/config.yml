@@ -19,6 +19,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            mkdir -p test-output
             npm run unit-tests
   pack:
     docker:
@@ -30,6 +31,22 @@ jobs:
       - install_deps
       - store_artifacts:
           path: ./
+  integration-tests:
+    docker:
+      - image: circleci/node:lts
+      - image: mongo:4.0
+    environment:
+      APP_PORT: 4000  
+      JEST_JUNIT_OUTPUT_DIR: test-output  
+    steps:
+      - checkout 
+      - install_deps
+      - run:
+          name: run integration tests
+          command: |
+            mkdir -p test-output
+            npm run integration-tests    
+
 
 workflows:
   build-and-packge:
@@ -42,4 +59,4 @@ workflows:
             branches:
               only:
                 - master
-            
+      - integration-tests          
