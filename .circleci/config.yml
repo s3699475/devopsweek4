@@ -49,18 +49,18 @@ jobs:
   sast:
     docker:
       - image: circleci/node:lts
-      steps:
-        - checkout
-        - run:
-            name: Install NodeJsScan
-            command: |
-              sudo apt update
-              sudo apt install python3-pip
-              pip3 install nodejsscan
-        - run:
-            name: Run NodeJsScan
-            command: |
-              nodejsscan -d ./
+    steps:
+      - checkout
+      - run:
+          name: Install NodeJsScan
+          command: |
+            sudo apt update
+            sudo apt install python3-pip
+            pip3 install nodejsscan
+      - run:
+          name: Run NodeJsScan
+          command: |
+            nodejsscan -d ./
 
 
 workflows:
